@@ -3,31 +3,6 @@ export default class SingleCar extends Component {
   state = {
     cars: [
       {
-        id: 1,
-        name: "Cobalt",
-        color: "white",
-        position: "2",
-        price: "12000$",
-        year: 2024,
-        img: <img src="https://www.auto-mgn.ru/resources/images/upload/00000015532afa6310f0.jpg" alt="Cobalt img" />
-      },
-      {
-        id: 2,
-        name: "Malibu",
-        color: "black",
-        position: "3",
-        price: "40000$",
-        year: 2025,
-        img: <img src="https://getmecar.ru/wp-content/uploads/2023/06/Chevrolet-Malibu-2018-scaled.jpeg" alt="Malibu img" />  
-      },
-      {
-        id: 3,
-        name: "Damas",
-        color: "blue",
-        position: "1",
-        price: "8000$",
-        year: 2023,
-        img: <img src="https://repost.uz/storage/uploads/1-1632142354-avto-post-material.jpeg" alt="Damas img" />
       },
     ],
   };
