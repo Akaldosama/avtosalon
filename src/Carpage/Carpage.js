@@ -1,89 +1,111 @@
-// import React, { Component } from "react";
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-export default function Carpage() {
-    const navigate = useNavigate()
-    const toCar = () =>{
+ 
+export default function Users() {
+  const navigate = useNavigate()
+  const moreFunc = () =>{
         navigate('/Car')
-    }
-  const [cars, setCars] = useState ([
-    {
-      id: 1,
-      name: "Cobalt",
-      color: "white",
-      position: "2",
-      price: "12000$",
-      year: 2024,
-      img: (
-        <img
-          src="https://www.auto-mgn.ru/resources/images/upload/00000015532afa6310f0.jpg"
-          alt="Cobalt img"
-        />
-      ),
-    },
-    {
-      id: 2,
-      name: "Malibu",
-      color: "black",
-      position: "3",
-      price: "40000$",
-      year: 2025,
-      img: (
-        <img
-          src="https://getmecar.ru/wp-content/uploads/2023/06/Chevrolet-Malibu-2018-scaled.jpeg"
-          alt="Malibu img"
-        />
-      ),
-    },
-    {
-      id: 3,
-      name: "Damas",
-      color: "blue",
-      position: "1",
-      price: "8000$",
-      year: 2023,
-      img: (
-        <img
-          src="https://repost.uz/storage/uploads/1-1632142354-avto-post-material.jpeg"
-          alt="Damas img"
-        />
-      ),
-    },
+  }
+
+  const [name, setName] = useState("");
+  const [color, setColor] = useState("");
+  const [price, setPrice] = useState("");
+  const [year, setYear] = useState("");
+  const [position, setPosition] = useState("");
+  const [search, setSearch] = useState("");
+  const [users, setUsers] = useState([
+    { name: "Malibu", color: "black", price: 20000, year: 2022, position: 3 },
   ]);
 
+  const changeName = (e) => {
+    setName(e.target.value);
+  };
+  const changeColor = (e) => {
+    setColor(e.target.value);
+  };
+  const changePrice = (e) => {
+    setPrice(e.target.value);
+  };
+  const changeYear = (e) => {
+    setYear(e.target.value);
+  };
+  const changePosition = (e) => {
+    setPosition(e.target.value);
+  };
+  const searchUser = (e) => {
+    setSearch(e.target.value);
+  };
+  const addUser = () => {
+    let payload = {
+      name,
+      color,
+      price,
+      year, 
+      position,
+    };
+    setUsers([...users, {...payload}])
+  };
+  const delFunc = (index) => {
+    users.splice(index,1)
+    setUsers([...users])
+  }
   return (
     <div className="container">
-      <table className="table">
+      <input type="text" placeholder="Search" onChange={searchUser} className="form-control" /> <br />
+      <table className="table table-bordered">
         <thead>
           <tr>
             <th>#</th>
             <th>Name</th>
             <th>Color</th>
-            <th>Position</th>
             <th>Price</th>
+            <th>Year</th>
+            <th>Position</th>
+            <th>Discard</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {
-            cars.map((item, index) => {
-            return (
-              <tr key={index}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.color}</td>
-                  <td>{item.position}</td>
-                  <td>{item.price}</td>
-                  <td>
-                    <button className="btn btn-primary" onClick={toCar}>More</button>
-                  {/* <Link to = {`/SingleCar/${item.id - 1}`} className="btn btn-primary" > See All </Link> */}
-                  </td>
-                </tr>
-              );
-            })
+           users.filter((item) =>{
+             if(search === ''){
+                return item
+            }else if(item.name.toLowerCase().includes(search.toLowerCase())){
+                return item
+            }
+           }).map((item, index)=>{
+            return <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item.name}</td>
+                <td>{item.color}</td>
+                <td>{item.price}</td>
+                <td>{item.year}</td>
+                <td>{item.position}</td>
+                <td>
+                    <button   className="btn btn-danger" onClick={() => delFunc(index)}>Delete</button>
+                </td>
+                <td>
+                    <button   className="btn btn-primary" onClick={() => moreFunc(index)}>More</button>
+                </td>
+            </tr>
+           })
           }
         </tbody>
       </table>
+      <div className="card">
+        <div className="card-header">Add User</div>
+        <div className="card-body">
+          <form>
+            <input type="text" placeholder="Name" onChange={changeName} className="form-control mt-2"/>
+            <input type="text" placeholder="Color" onChange={changeColor} className="form-control mt-2" />
+            <input type="text" placeholder="Price" onChange={changePrice} className="form-control mt-2" />
+            <input type="text" placeholder="Year" onChange={changeYear} className="form-control mt-2" />
+            <input type="text" placeholder="Position" onChange={changePosition} className="form-control mt-2" />
+          </form>
+            <button onClick={addUser} className="btn btn-primary mt-2">Add User</button>
+        </div>
+      </div>
     </div>
-  );
+  )
 }

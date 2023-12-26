@@ -1,101 +1,56 @@
-import React from "react";
-import { useState } from "react";
- 
-export default function Users() {
-  const [name, setName] = useState("");
-  const [color, setColor] = useState("");
-  const [price, setPrice] = useState("");
-  const [year, setYear] = useState("");
-  const [position, setPosition] = useState("");
-  const [search, setSearch] = useState("");
-  const [users, setUsers] = useState([
-    { name: "Malibu", color: "black", price: 20000, year: 2022, position: 3 },
-  ]);
-
-  const changeName = (e) => {
-    setName(e.target.value);
+import React, { Component } from "react";
+import './style.css'
+export default class SingleCar extends Component {
+  state = {
+    cars: [
+      {
+        id: 1,
+        name: "Cobalt",
+        color: "white",
+        position: "2",
+        price: "12000$",
+        year: 2024,
+        img: <img src="https://www.auto-mgn.ru/resources/images/upload/00000015532afa6310f0.jpg" alt="Cobalt img" />
+      },
+      {
+        id: 2,
+        name: "Malibu",
+        color: "black",
+        position: "3",
+        price: "40000$",
+        year: 2025,
+        img: <img src="https://getmecar.ru/wp-content/uploads/2023/06/Chevrolet-Malibu-2018-scaled.jpeg" alt="Malibu img" />  
+      },
+      {
+        id: 3,
+        name: "Damas",
+        color: "blue",
+        position: "1",
+        price: "8000$",
+        year: 2023,
+        img: <img src="https://repost.uz/storage/uploads/1-1632142354-avto-post-material.jpeg" alt="Damas img" />
+      },
+    ],
   };
-  const changeColor = (e) => {
-    setColor(e.target.value);
-  };
-  const changePrice = (e) => {
-    setPrice(e.target.value);
-  };
-  const changeYear = (e) => {
-    setYear(e.target.value);
-  };
-  const changePosition = (e) => {
-    setPosition(e.target.value);
-  };
-  const searchUser = (e) => {
-    setSearch(e.target.value);
-  };
-  const addUser = () => {
-    let payload = {
-      name,
-      color,
-      price,
-      year, 
-      position,
-    };
-    setUsers([...users, {...payload}])
-  };
-  const delFunc = (index) => {
-    users.splice(index,1)
-    setUsers([...users])
-  }
-  return (
-    <div className="container">
-      <input type="text" placeholder="Search" onChange={searchUser} className="form-control" /> <br />
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Color</th>
-            <th>Price</th>
-            <th>Year</th>
-            <th>Position</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-           users.filter((item) =>{
-             if(search === ''){
-                return item
-            }else if(item.name.toLowerCase().includes(search.toLowerCase())){
-                return item
-            }
-           }).map((item, index)=>{
-            return <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td>{item.color}</td>
-                <td>{item.price}</td>
-                <td>{item.year}</td>
-                <td>{item.position}</td>
-                <td>
-                    <button   className="btn btn-danger" onClick={() => delFunc(index)}>Delete</button>
-                </td>
-            </tr>
-           })
-          }
-        </tbody>
-      </table>
+  render() {
+    const { cars } = this.state;
+    const url = window.location.href.split("/");
+    let index = Number(url[4]);
+    console.log(url[4]);
+    return (
       <div className="card">
-        <div className="card-header">Add User</div>
+        <div className="card-header">
+          <h1>About a Car</h1>
+        </div>
         <div className="card-body">
-          <form>
-            <input type="text" placeholder="Name" onChange={changeName} className="form-control mt-2"/>
-            <input type="text" placeholder="Color" onChange={changeColor} className="form-control mt-2" />
-            <input type="text" placeholder="Price" onChange={changePrice} className="form-control mt-2" />
-            <input type="text" placeholder="Year" onChange={changeYear} className="form-control mt-2" />
-            <input type="text" placeholder="Position" onChange={changePosition} className="form-control mt-2" />
-          </form>
-            <button onClick={addUser} className="btn btn-primary mt-2">Add User</button>
+          <h3>{`Car name: ${cars[index].name}`}</h3>
+          <h3>{`Color: ${cars[index].color}`}</h3>
+          <h3>{`Position: ${cars[index].position}`}</h3>
+          <h3>{`Price ${cars[index].price}`}</h3>
+          <h3>{`Year ${cars[index].year}`}</h3>
+          <h3>{cars[index].img}</h3>
         </div>
       </div>
-    </div>
-  )
+    );
+  }
 }
